@@ -331,6 +331,52 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 		end
 	end
 	
+	if strEquals(args[1], "notify") then
+		for target in Server:GetPlayers() do
+			local text = ""
+			for k,v in pairs(args) do
+				if(tonumber(k))then
+					if k > 1 then
+						text = text .. " " .. tostring(v)
+					end
+				end
+			end
+			Events:Fire("ZEDNotify", {player=target, time=4, color=Color(200,0,0), text=text, size=50})
+		end
+	end
+	
+	if strEquals(args[1], "notifyply") then
+		if(args[2] and args[3])then
+			if tonumber(args[2]) then
+				target = Player.GetById(tonumber(args[2]))
+				local text = ""
+				for k,v in pairs(args) do
+					if(tonumber(k))then
+						if k > 2 then
+							text = text .. " " .. tostring(v)
+						end
+					end
+				end
+				Events:Fire("ZEDNotify", {player=target, time=4, color=Color(200,0,0), text=text, size=50})
+			elseif GetPlayer(args[2]) then
+				target = GetPlayer(args[2])
+				local text = ""
+				for k,v in pairs(args) do
+					if(tonumber(k))then
+						if k > 2 then
+							text = text .. " " .. tostring(v)
+						end
+					end
+				end
+				Events:Fire("ZEDNotify", {player=target, time=4, color=Color(200,0,0), text=text, size=50})
+			else
+				SendChatMessage(ply, Color(200,0,0,255),"Can't find " .. args[2], Color(200,0,0,255))
+			end
+		else
+			SendChatMessage(ply, Color(200,0,0,255),"Syntax: /notifyply <name> <message>")
+		end
+	end
+	
 	if strEquals(args[1], "disarm") then
 		if(args[2])then
 			if(tonumber(args[2]))then
