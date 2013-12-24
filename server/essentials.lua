@@ -377,6 +377,40 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 		end
 	end
 	
+	if strEquals(args[1], "w") or strEquals(args[1], "whisper") or strEquals(args[1], "pm") then
+		if(args[2] and args[3])then
+			if tonumber(args[2]) then
+				target = Player.GetById(tonumber(args[2]))
+				local text = ""
+				for k,v in pairs(args) do
+					if(tonumber(k))then
+						if k > 2 then
+							text = text .. " " .. tostring(v)
+						end
+					end
+				end
+				SendChatMessage(target, ply:GetColor(), ply:GetName(), " to you: ", Color(200,200,200), text)
+				SendChatMessage(ply, target:GetColor(), "You to ", target:GetName(), ": ", Color(200,200,200), text)
+			elseif GetPlayer(args[2]) then
+				target = GetPlayer(args[2])
+				local text = ""
+				for k,v in pairs(args) do
+					if(tonumber(k))then
+						if k > 2 then
+							text = text .. " " .. tostring(v)
+						end
+					end
+				end
+				SendChatMessage(target, ply:GetColor(), ply:GetName(), " to you: ", Color(200,200,200), text)
+				SendChatMessage(ply, target:GetColor(), "You to ", target:GetName(), ": ", Color(200,200,200), text)
+			else
+				SendChatMessage(ply, Color(200,0,0,255),"Can't find " .. args[2], Color(200,0,0,255))
+			end
+		else
+			SendChatMessage(ply, Color(200,0,0,255),"Syntax: /w <name/id> <message>")
+		end
+	end
+	
 	if strEquals(args[1], "disarm") then
 		if(args[2])then
 			if(tonumber(args[2]))then
