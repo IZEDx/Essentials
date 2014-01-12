@@ -1723,7 +1723,7 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 					SendChatMessage(ply, Color(20,200,20),"[ZED]: Driver " .. tostring(vdr) .. " Occupants " .. " 1 " .. tostring(voc1) .. " 2 " .. tostring(voc2) ..	" 3 ".. tostring(voc3) .. " 4 ".. tostring(voc4) .. " 5 ".. tostring(voc5) .. " 6 ".. tostring(voc6))
 					return true
 				else
-					SendChatMessage(ply, Color(200,20,200), "[ZED]: The target is not in a vehicle!")
+					SendChatMessage(ply, Color(200,20,20), "[ZED]: The target is not in a vehicle!")
 					return false
 				end
 			elseif GetPlayer(args[2]) then
@@ -1742,7 +1742,7 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 					SendChatMessage(ply, Color(20,200,20),"[ZED]: Driver " .. tostring(vdr) .. " Occupants " .. " 1 " .. tostring(voc1) .. " 2 " .. tostring(voc2) ..	" 3 ".. tostring(voc3) .. " 4 ".. tostring(voc4) .. " 5 ".. tostring(voc5) .. " 6 ".. tostring(voc6))
 					return true
 				else
-					SendChatMessage(ply, Color(200,20,200), "[ZED]: The target is not in a vehicle!")
+					SendChatMessage(ply, Color(200,20,20), "[ZED]: The target is not in a vehicle!")
 					return false
 				end
 			else
