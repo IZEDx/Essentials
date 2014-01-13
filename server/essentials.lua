@@ -948,7 +948,7 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 		end
 	end
 	
-	if strEquals(args[1], "notify") then
+	if (strEquals(args[1], "notify")) or (strEquals(args[1], "ntf")) then
 		for target in Server:GetPlayers() do
 			local text = ""
 			for k,v in pairs(args) do
@@ -963,7 +963,7 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 		end
 	end
 	
-	if strEquals(args[1], "notifyply") then
+	if (strEquals(args[1], "notifyply")) or (strEquals(args[1], "ntfply")) then
 		if(args[2] and args[3])then
 			if tonumber(args[2]) then
 				target = Player.GetById(tonumber(args[2]))
@@ -1129,6 +1129,20 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 			SendChatMessage(ply, Color(200,20,20),"[ZED]: Syntax: /wep <slot> <id>")
 			return false
 		end
+	end
+	
+	if strEquals(args[1], "fireevent") then
+		local text = ""
+		for k,v in pairs(args) do
+			if(tonumber(k))then
+				if k > 1 then
+					text = text .. " " .. tostring(v)
+				end
+			end
+		end
+		event = tostring(v)
+		Network:Send("GameEvent", event)
+		return true
 	end
 	
 	--//              \\--
@@ -1905,49 +1919,97 @@ Events:Subscribe("ZEDExecuteCommand", function(a)
 	--\\            //--
 	
 	if strEquals(args[1], "weather") then
-		if(args[2])then
-			if(tonumber(args[2])) then
-				DefaultWorld:SetWeatherSeverity(tonumber(args[2]))
-				Broadcast(Color(200, 20, 20),"[ZED]: " .. ply:GetName() , " set the weather severity to " .. args[2] .. "!")
-				return true
+		if ply:GetWorld() == DefaultWorld then
+			if(args[2])then
+				if(tonumber(args[2])) then
+					local wth = tonumber(args[2])
+					if wth >= 0 then
+						if wth <= 2 then
+							DefaultWorld:SetWeatherSeverity(wth)
+							Broadcast(Color(200, 20, 20),"[ZED]: " .. ply:GetName() , " set the weather severity to " .. wth .. "!")
+							return true
+						else
+							SendChatMessage(ply, Color(200,20,20),"[ZED]: This is too high!: " .. args[2] .. "!")
+							return false
+						end
+					else
+						SendChatMessage(ply, Color(200,20,20),"[ZED]: This is too low!: " .. args[2] .. "!")
+						return false
+					end
+				else
+					SendChatMessage(ply, Color(200,20,20),"[ZED]: This is not a valid weather severity!: " .. args[2] .. "!")
+					return false
+				end
 			else
-				SendChatMessage(ply, Color(200,20,20),"[ZED]: This is not a valid weather severity!: " .. args[2] .. "!")
+				SendChatMessage(ply, Color(200,20,20),"[ZED]: Syntax: /weather <0-2>")
 				return false
 			end
 		else
-			SendChatMessage(ply, Color(200,20,20),"[ZED]: Syntax: /weather <0-2>")
+			SendChatMessage(ply, Color(200,20,20),"[ZED]: You must be in the default world!")
 			return false
 		end
 	end
 	
 	if strEquals(args[1], "time") then
-		if(args[2])then
-			if(tonumber(args[2])) then
-				DefaultWorld:SetTime(tonumber(args[2]))
-				Broadcast(Color(200, 20, 20), "[ZED]: " .. ply:GetName() , " set the time to " .. args[2] .. "!")
-				return true
+		if ply:GetWorld() == DefaultWorld then
+			if(args[2])then
+				if(tonumber(args[2])) then
+					local t = tonumber(args[2])
+					if t >= 0 then
+						if t <= 24 then
+							DefaultWorld:SetTime(tonumber(args[2]))
+							Broadcast(Color(200, 20, 20), "[ZED]: " .. ply:GetName() , " set the time to " .. t .. "!")
+							return true
+						else
+							SendChatMessage(ply, Color(200,20,20),"[ZED]: This is too high!: " .. t .. "!")
+							return false
+						end
+					else
+						SendChatMessage(ply, Color(200,20,20),"[ZED]: This is too low!: " .. t .. "!")
+						return false
+					end
+				else
+					SendChatMessage(ply, Color(200,20,20),"[ZED]: This is not a time!: " .. args[2] .. "!")
+					return false
+				end
 			else
-				SendChatMessage(ply, Color(200,20,20),"[ZED]: This is not a time!: " .. args[2] .. "!")
+				SendChatMessage(ply, Color(200,20,20),"[ZED]: Syntax: /time <0-24>")
 				return false
 			end
 		else
-			SendChatMessage(ply, Color(200,20,20),"[ZED]: Syntax: /time <0-24>")
+			SendChatMessage(ply, Color(200,20,20),"[ZED]: You must be in the default world!")
 			return false
 		end
 	end
 	
 	if strEquals(args[1], "timestep") then
-		if(args[2])then
-			if(tonumber(args[2])) then
-				DefaultWorld:SetTimeStep(tonumber(args[2]))
-				Broadcast(Color(200, 20, 20), "[ZED]: " .. ply:GetName() , " set the timestep to " .. args[2] .. "!")
-				return true
+		if ply:GetWorld() == DefaultWorld then
+			if(args[2])then
+				if(tonumber(args[2])) then
+					local ts = tonumber(args[2])
+					if ts >= 0 then
+						if ts <= 1000 then
+							DefaultWorld:SetTimeStep(tonumber(args[2]))
+							Broadcast(Color(200, 20, 20), "[ZED]: " .. ply:GetName() , " set the timestep to " .. ts .. "!")
+							return true
+						else
+							SendChatMessage(ply, Color(200,20,20),"[ZED]: This is too high!: " .. ts .. "!")
+							return false
+						end
+					else
+						SendChatMessage(ply, Color(200,20,20),"[ZED]: This is too low!: " .. ts .. "!")
+						return false
+					end
+				else
+					SendChatMessage(ply, Color(200,20,20),"[ZED]: This is not a valid value!: " .. args[2] .. "!")
+					return false
+				end
 			else
-				SendChatMessage(ply, Color(200,20,20),"[ZED]: This is not a valid value!: " .. args[2] .. "!")
+				SendChatMessage(ply, Color(200,20,20),"[ZED]: Syntax: /timestep <any non-negative integer>")
 				return false
 			end
 		else
-			SendChatMessage(ply, Color(200,20,20),"[ZED]: Syntax: /timestep <any non-negative integer>")
+			SendChatMessage(ply, Color(200,20,20),"[ZED]: You must be in the default world!")
 			return false
 		end
 	end

@@ -1,4 +1,4 @@
-Essentials
+ZED Essentials V2.1
 ==========
 ***Now With Commands+!***
 
